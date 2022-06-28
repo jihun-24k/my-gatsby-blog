@@ -1,14 +1,11 @@
 import React from "react";
-import Head from "../component/head";
+import Layout from "../components/layout";
 
 const IndexPage = () => {
   return (
-    <main>
-      <title>Home Page</title>
-      <Head/>
-
-      <h1>Home Page</h1>
-    </main>
+    <Layout pageTitle="Home Page">
+      <p>I'm making this by following the Gatsby Tutorial.</p>
+    </Layout>
   );
 };
 
