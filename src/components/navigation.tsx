@@ -18,8 +18,7 @@ const Navigation = ({ nav }: NavigationProps) => {
   return (
     <React.Fragment>
       {nav && nav.length > 0 && (
-        <nav sx={{ "a:not(:last-of-type)": { mr: 3 }, fontSize: [1, `20px`], ".active": { color: `heading` }, postion: 'fixed',
-        top: 0,}}>
+        <nav sx={{ "a:not(:last-of-type)": { mr: 3 }, fontSize: [1, `20px`], fontWeight: "bold", ".active": { color: `heading` },}}>
           {nav.map((item) => (
             <Link
               activeClassName="active"

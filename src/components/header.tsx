@@ -16,25 +16,27 @@ const Header = () => {
   }
 
   return (
-    <header sx={{ position: "sticky" , top:0 , mb: [5, 6], opacity: 0.7, backdropFilter: "blur(30px)"}}>
-      <Flex sx={{ alignItems: `center`, justifyContent: `space-between` }}>
+    <header sx={{
+      position: "sticky", top: 0, opacity: 0.7, backdropFilter: "blur(30px)", margin: "0px auto",
+      pt: "30px", width: "100%", maxWidth: 1100,
+    }}>
+      <Flex sx={{ alignItems: `center`, gap: "16px", }}>
         <HeaderTitle />
+        <Navigation nav={nav} />
         <ColorModeToggle isDark={isDark} toggle={toggleColorMode} />
       </Flex>
       <div
         sx={{
-          boxSizing: `border-box`,
-          display: `flex`,
-          variant: `dividers.bottom`,
-          alignItems: `center`,
-          justifyContent: `space-between`,
-          mt: 3,
-          color: `secondary`,
-          a: { color: `secondary`, ":hover": { color: `heading` } },
-          flexFlow: `wrap`,
+          // boxSizing: `border-box`,
+          // display: `flex`,
+          // variant: `dividers.bottom`,
+          // alignItems: `center`,
+          // justifyContent: `space-between`,
+          // color: `secondary`,
+          // a: { color: `secondary`, ":hover": { color: `heading` } },
+          flexFlow: `nowrap`,
         }}
       >
-        <Navigation nav={nav} />
       </div>
     </header>
   )
