@@ -29,8 +29,8 @@ const Blog = ({ posts }: PostsProps) => {
     <Layout>
       <Seo title="Blog" />
       <Flex sx={{ alignItems: `center`, justifyContent: `space-between`, flexFlow: `wrap` }}>
-        <Heading as="h1" variant="styles.h1" sx={{ marginY: 2 }}>
-          Blog
+        <Heading as="h3" variant="styles.h3" sx={{ marginY: 2 }}>
+          Writing
         </Heading>
         <Link
           sx={(t) => ({ ...t.styles?.a, variant: `links.secondary`, marginY: 2 })}
