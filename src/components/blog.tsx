@@ -27,7 +27,7 @@ const Blog = ({ posts }: PostsProps) => {
 
   return (
     <Layout>
-      <Seo title="Blog" />
+      <Seo title="Writing" />
       <Flex sx={{ alignItems: `center`, justifyContent: `space-between`, flexFlow: `wrap` }}>
         <Heading as="h3" variant="styles.h3" sx={{ marginY: 2 }}>
           Writing
