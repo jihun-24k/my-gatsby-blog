@@ -80,6 +80,11 @@ const code: ThemeUICSSObject = {
       background: `#61dafb`,
       color: `black`,
     },
+    'pre[class~="language-java"]:before': {
+      content: `"java"`,
+      background: `#61dafb`,
+      color: `black`,
+    },
     'pre[class~="language-ts"]:before': {
       content: `"ts"`,
       background: `#61dafb`,
