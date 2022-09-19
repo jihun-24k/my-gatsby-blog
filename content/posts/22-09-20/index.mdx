@@ -1,0 +1,36 @@
+---
+title: 사용자 정의 Properties 적용
+date: 2022-09-20
+tags:
+  - java
+  - property
+---
+
+이번 포스팅에서 다룰 주제는 직접 정의한 properties 파일을 적용시키는 방법이다. 개발을 하다보면 개인정보가 담긴 properties 파일을 다루게 되는데 대표적으로 데이터 베이스 사용자의 아이디와 비밀번호 뿐만이 아니라 이메일 전송을 위한 앱비밀번호와 같은 개인정보들이 있다. 이런 보안에 민감한 내용을 기본 파일인 `application.properties` 파일 말고 사용자가 직접 정의한 properties를 이용하게 되는데 이에 관한 내용을 정리하고자 한다.
+
+## 사용자 정의 properties 만들기
+
+최근 프로젝트에서 google smtp 기능을 사용할 일이 있었는데 앱 비밀번호를 따로 properties를 만들어 관리하게 해줬습니다.  
+
+![디렉토리](./properties.png)
+
+## 사용자 정의 propeties 사용하기
+
+기존 알고 있던 방식은 스프링부트 애너테이션 중 `@Value` 라는 것을 사용해서 properties 안의 값을 가져오는 방식이 있었다. 하지만 해당 작업은 기존 `application.properties` 를 참조해주면서 값을 가져오지 못하는 상황이 발생했다. 이때 같이 `@PropertySource` 를 사용해주게 되면 참조하고 싶은 properties 파일을 지정해줄 수 있다.
+
+### @PropertySource & @Value
+
+```:title=java
+@Configuration
+@RequiredArgsConstructor
+@PropertySource("classpath:google-smtp.properties")
+public class MailConfig {
+
+    @Value("${spring.mail.username}")
+    String username;
+    @Value("${spring.mail.password}")
+    String password;
+}
+```
+
+`@PropertySource` 안에 값으로 클래스 경로를 properties 파일로 명명해주면 쉽게 참조가 가능하다. 여기서 해당하는 root 경로는 스프링부트 안의 `resources` 이다. `@PropertySource` 애너테이션과 `@Value` 애너테이션을 같이 씀으로써 사용자 정의 properties 파일을 사용할 수 있다.
