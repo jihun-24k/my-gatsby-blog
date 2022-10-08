@@ -10,7 +10,7 @@ module.exports = {
     siteTitle: `Jihun-24k Log`,
     siteTitleAlt: `Jihun-24k Log`,
     siteHeadline: `Jihun-24k - Gatsby Theme from @lekoarts`,
-    siteUrl: `https://minimal-blog.lekoarts.de`,
+    siteUrl: `https://mygatsbyblogmaster49802.gatsbyjs.io`,
     siteDescription: `Typography driven, feature-rich blogging theme with minimal aesthetics. Includes tags/categories support and extensive features for code blocks such as live preview, line numbers, and line highlighting.`,
     siteLanguage: `ko`,
     siteImage: `/banner.jpg`,
@@ -43,21 +43,21 @@ module.exports = {
         ],
       },
     },
-    {
-      resolve: `gatsby-omni-font-loader`,
-      options: {
-        enableListener: true,
-        preconnect: [`https://fonts.gstatic.com`],
-        // If you plan on changing the font you'll also need to adjust the Theme UI config to edit the CSS
-        // See: https://github.com/LekoArts/gatsby-themes/tree/main/examples/minimal-blog#changing-your-fonts
-        web: [
-          {
-            name: `IBM Plex Sans`,
-            file: `https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap`,
-          },
-        ],
-      },
-    },
+    // {
+    //   resolve: `gatsby-omni-font-loader`,
+    //   options: {
+    //     enableListener: true,
+    //     preconnect: [`https://fonts.gstatic.com`,'https://noonnu.cc/font_page/366'],
+    //     // If you plan on changing the font you'll also need to adjust the Theme UI config to edit the CSS
+    //     // See: https://github.com/LekoArts/gatsby-themes/tree/main/examples/minimal-blog#changing-your-fonts
+    //     web: [
+    //       {
+    //         name: `IBM Plex Sans`,
+    //         file: `https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap`,
+    //       },
+    //     ],
+    //   },
+    // },
     {
       resolve: `gatsby-plugin-sitemap`,
       options: {
