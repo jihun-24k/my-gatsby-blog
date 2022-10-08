@@ -7,6 +7,14 @@ import theme from "prism-react-renderer/themes/nightOwl"
 import Copy from "./copy"
 import useMinimalBlogConfig from "../hooks/use-minimal-blog-config"
 import { Language } from "../types"
+/*기본에 없는 코드 하이라이팅 추가 코드, java docker 추가*/ 
+import Prism from "prism-react-renderer/prism";
+
+(typeof global !== "undefined" ? global : window).Prism = Prism;
+
+require("prismjs/components/prism-java");
+require("prismjs/components/prism-docker");
+/* */
 
 type CodeProps = {
   codeString: string

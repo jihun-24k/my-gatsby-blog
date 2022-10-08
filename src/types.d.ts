@@ -1,6 +1,8 @@
 import * as React from "react"
 
 export type Language =
+  | "docker"
+  | "java"
   | "markup"
   | "bash"
   | "clike"
