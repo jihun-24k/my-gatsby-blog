@@ -43,6 +43,19 @@ module.exports = {
         ],
       },
     },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [
+          {
+            resolve: `gatsby-remark-highlight-code`,
+            options: {
+              terminal: "carbon",
+            },
+          },
+        ],
+      },
+    },
     // {
     //   resolve: `gatsby-omni-font-loader`,
     //   options: {

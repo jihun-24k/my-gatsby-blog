@@ -1,6 +1,8 @@
 import { merge } from "theme-ui"
 import { transparentize } from "@theme-ui/color"
 import { tailwind } from "@theme-ui/presets"
+import { defineCustomElements as deckDeckGoElement } from '@deckdeckgo/highlight-code/dist/loader';
+deckDeckGoElement();
 
 const theme = merge(tailwind, {
   initialColorModeName: `light`,
@@ -27,9 +29,9 @@ const theme = merge(tailwind, {
       },
     },
   },
-  fonts: {
-    body: `"IBM Plex Sans", -apple-system, BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"`,
-  },
+  // fonts: {
+  //   body: `"IBM Plex Sans", -apple-system, BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"`,
+  // },
   styles: {
     root: {
       color: `text`,

@@ -10,3 +10,7 @@
     font-family: "GmarketSansMedium";
     text-underline-position: under;
   }
+
+  deckgo-highlight-code {
+    --deckgo-highlight-code-font-size: 4rem;
+}
