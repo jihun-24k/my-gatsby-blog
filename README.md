@@ -2,7 +2,7 @@
 
 ### Information
 
-개츠비 블로그로 운영되는 기술 블로그입니다. 
+개츠비 블로그로 운영되는 기술 블로그입니다.  
 주로 회고나 기술, 트러블 슈팅에 관한 내용을 업로드 합니다.
 
 ### Customizing
@@ -16,5 +16,5 @@
 
 ### Dependency
 
-아래 테마에 의존하고 있습니다.
+아래 테마에 의존하고 있습니다.  
 [`@lekoarts/gatsby-theme-minimal-blog`](https://github.com/LekoArts/gatsby-themes/tree/main/themes/gatsby-theme-minimal-blog)
