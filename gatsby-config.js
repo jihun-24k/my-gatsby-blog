@@ -13,7 +13,7 @@ module.exports = {
     siteUrl: `https://jihun-24.site`,
     siteDescription: `어느 백엔드 개발자의 기술블로그`,
     siteLanguage: `ko`,
-    siteImage: `https://jihun-24k.site/banner.jpg`,
+    siteImage: `/banner.jpg`,
     author: `@jihun-24k`,
   },
   plugins: [
@@ -21,6 +21,7 @@ module.exports = {
       resolve: `@lekoarts/gatsby-theme-minimal-blog`,
       // See the theme's README for all available options
       options: {
+        formatString: "YYYY.MM.DD",
         navigation: [
           {
             title: `Blog`,
@@ -139,7 +140,7 @@ module.exports = {
                 allPost(sort: { fields: date, order: DESC }) {
                   nodes {
                     title
-                    date(formatString: "MMMM D, YYYY")
+                    date(formatString: "YYYY.MM.DD.")
                     excerpt
                     slug
                   }
