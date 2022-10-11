@@ -60,6 +60,7 @@ const Seo = ({
       <link rel="icon" type="image/png" sizes="32x32" href={withPrefix(`/favicon-32x32.png`)} />
       <link rel="icon" type="image/png" sizes="16x16" href={withPrefix(`/favicon-16x16.png`)} />
       <link rel="apple-touch-icon" sizes="180x180" href={withPrefix(`/apple-touch-icon.png`)} />
+      <meta name="google-site-verification" content="lDqfhFJv0fbuRR8SPKPrcc71FhH-oFyDXYLWabiW_bQ" />
       {canonicalUrl ? <link rel="canonical" href={canonicalUrl} /> : null}
       {children}
     </Helmet>
