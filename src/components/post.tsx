@@ -6,6 +6,7 @@ import Layout from "./layout"
 import ItemTags from "./item-tags"
 import Seo from "./seo"
 import PostFooter from "./post-footer"
+import CommentWidget from "./comment-widget"
 
 type PostProps = {
   data: {
@@ -67,6 +68,7 @@ const Post = ({ data: { post } }: PostProps) => (
       }}
     >
       <MDXRenderer>{post.body}</MDXRenderer>
+      <CommentWidget />
     </section>
     <PostFooter post={post} />
   </Layout>
