@@ -13,8 +13,8 @@ module.exports = {
     siteUrl: `https://jihun-24.site`,
     siteDescription: `어느 백엔드 개발자의 기술블로그`,
     siteLanguage: `ko`,
-    siteImage: `/banner.jpg`,
-    author: `@lekoarts_de`,
+    siteImage: `https://jihun-24k.site/banner.jpg`,
+    author: `@jihun-24k`,
   },
   plugins: [
     {
