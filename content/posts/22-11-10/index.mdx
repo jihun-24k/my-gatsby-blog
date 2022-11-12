@@ -29,10 +29,10 @@ enum 열거형 이름 { 상수명1, 상수명2, ... }
 
 | 메서드 | 설명 |
 | --- | --- |
-| Class<E> getDeclaringClass() | Enum의 Class 객체를 반환 |
+| Class{'<'}E{'>'} getDeclaringClass() | Enum의 Class 객체를 반환 |
 | String name() | Enum 상수의 이름을 문자열로 반환 |
 | int ordinal() | Enum 상수가 정의된 순서를 반환 (0부터 시작) |
-| T valueOf(Class<T> enumType, String name) | 지정된 Enum에서 name과 일치하는 Enum 상수를 반환 |
+| T valueOf(Class{'<'}T{'>'} enumType, String name) | 지정된 Enum에서 name과 일치하는 Enum 상수를 반환 |
 
 ## Enum을 사용하는 이유(정리)
 
