@@ -5,20 +5,20 @@ tags:
   - error
 ---
 
-## 에러 상황
+### 에러 상황
 이전에 문구 출력을 테스트하려고 만들어둔 테스트코드가 실패했다.  
 
-## 테스트 실패
-<img width="1264" alt="스크린샷 2022-11-08 오후 1 44 17" src="https://user-images.githubusercontent.com/55697125/200477075-9a091be7-57b4-49c7-bc74-083d91bfbdd4.png">
+### 테스트 실패
+![](error-test.png)
 
-## 원인
+### 원인
 프로그램을 실행하면 `Cosole.readLine()`으로 프로그램이 종료하기 전까지 사용자에게 값을 받아온다.  
 이때 test 케이스에서 프로그램이 종료시키지 않고 계속 사용자에게 값을 받아오느라 이러한 에러가 뜨면서 테스트가 실패했다.
 
-## 해결
+### 해결
 `assertRandomNumberInRangeTest`를 통해 게임 숫자를 맞추고 종료한 뒤 생긴 output을 테스트했다.  
 이과정에서 문구 출력 테스트를 두 개에서 하나로 리팩토링을 진행했다.
 
-## 참고
+### 참고
 - https://tibang.tistory.com/entry/javautilNoSuchElementException-No-line-found
 - https://stackoverflow.com/questions/7209110/java-util-nosuchelementexception-no-line-found
