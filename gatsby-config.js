@@ -11,7 +11,7 @@ module.exports = {
     siteTitleAlt: `Jihun-24k Log`,
     siteHeadline: `Jihun-24k - Gatsby Theme from @lekoarts`,
     siteUrl: `https://jihun-24.site`,
-    siteDescription: `어느 백엔드 개발자의 기술블로그`,
+    siteDescription: `백엔드 개발자의 기술블로그`,
     siteLanguage: `ko`,
     siteImage: `/banner.jpg`,
     author: `@jihun-24k`,
