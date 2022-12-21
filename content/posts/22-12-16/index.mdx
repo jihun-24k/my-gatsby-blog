@@ -9,11 +9,11 @@ tags:
 
 ### 들어가며
 
-프로그래밍을 하면서 심심치 않게 equals와 hashCode 메서드를 보게 된다. 항상 equals와 hashCode를 재정의해라 equals만 재정의하면 안좋다라는 말을 보고 그냥 수긍하며 코드를 작성 했었다. 이렇게 대략적인 뜻만 알고 있었는데 이번 글을 통해 좀 더 깊게 파고들어 정확한 의미를 아는 것이 목표다. 
+프로그래밍을 하면서 심심치 않게 equals와 hashCode 메서드를 보게 된다. 항상 equals와 hashCode를 재정의해라 equals만 재정의하면 안 좋다라는 말을 보고 그냥 수긍하며 코드를 작성했었다. 이렇게 대략적인 뜻만 알고 있었는데 이번 글을 통해 좀 더 깊게 파고들어 정확한 의미를 아는 것이 목표다. 
 
 ### equals()
 
-Object클래스의 메서드 중 하나다. 매개변수로 객체의 참조변수를 받아서 비교하여 그 결과를 boolean 값으로 알려주는 역할을 지녔다. 실제 Object 클래스에 정의되어 있는 equals 메서드는 다음과 같다.
+Object 클래스의 메서드 중 하나다. 매개변수로 객체의 참조변수를 받아서 비교하여 그 결과를 boolean 값으로 알려주는 역할을 지녔다. 실제 Object 클래스에 정의되어 있는 equals 메서드는 다음과 같다.
 
 ```java
 public boolean equals(Object obj) {
@@ -25,7 +25,7 @@ public boolean equals(Object obj) {
 
 ### hashCode()
 
-equals메서드와 마찬가지로 Object클래스 메서드 중 하나다. `찾고자하는 값을 입력하면 그 값이 저장된 위치를 알려주는 해시코드(hashcode)를 반환`해준다.
+equals메서드와 마찬가지로 Object 클래스 메서드 중 하나다. `찾고자하는 값을 입력하면 그 값이 저장된 위치를 알려주는 해시코드(hashcode)를 반환`해준다.
 
 일반적으로 해시코드가 같은 두 객체가 존재하는 것이 가능하지만, Object클래스에 정의된 hashCode메서드는 객체의 주소값으로 해시코드를 만들어 반환하기 때문에 32bit JVM에서는 서로 다른 두 객체는 결코 같은 해시코드를 가질 수 없었지만 64bit JVM에서는 8byte 주소값으로 해시코드(4byte)를 만들기 때문에 해시코드가 중복 될 수 있다.
 
@@ -42,7 +42,7 @@ equals메서드와 마찬가지로 Object클래스 메서드 중 하나다. `찾
 
 #### Equals 재정의하는 이유
 
-앞에서 다룬 Object에 정의된 기본 equals는 참조하는 객체 주소가 같은지만을 판별해줬다. 그러면 동등성에 대해서는 검사를 하지 않기 때문에 재정의를 해서 내부 필드값까지 비교해준다. 대표적인 예로는 String 클래스에 재정의된 equals 메서드가 있다.
+앞에서 다룬 Object에 정의된 기본 equals는 참조하는 객체 주소가 같은 지만을 판별해줬다. 그러면 동등성에 대해서는 검사를 하지 않기 때문에 재정의를 해서 내부 필드값까지 비교해 준다. 대표적인 예로는 String 클래스에 재정의된 equals 메서드가 있다.
 
 ```java
 public boolean equals(Object anObject) {
@@ -86,11 +86,11 @@ public static void main(String[] args) {
 
 이름만 비교하는 Car이라는 클래스가 있다고 하자. Set은 알다시피 중복 값을 허용하지 않는다. 그렇다면 논리적으로 같은 값을 가진 두 객체가 동일하다고 보고 결과값은 1이 출력되게 될까?  아니다. 이처럼 hash 값을 사용하는 Collection(HashSet, HashMap, HashTable)을 사용할 때 문제가 발생할 수도 있다. 
 
-hashCode를 재정의 하지않으면 Object 클래스의 hashCode가 실행되게 되는데 Object 클래스의 hashCode는 `객체의 고유한 주소 값을 int 값으로 반환하기 때문에` 다른 객체로 판단하게 된다. 따라서 적절한 오버라이딩을 통해 hashCode를 재정의 해줘야한다. 
+hashCode를 재정의 하지 않으면 Object 클래스의 hashCode가 실행되게 되는데 Object 클래스의 hashCode는 `객체의 고유한 주소 값을 int 값으로 반환하기 때문에` 다른 객체로 판단하게 된다. 따라서 적절한 오버라이딩을 통해 hashCode를 재정의 해줘야 한다. 
 
 ### 정리
 
-글로 정리하다보니 equals를 오버라이딩을 해야할때 hashCode도 같이 오버라이딩하는 것이 좋은 코딩 방법이란 생각이 든다. 앞으로 hash 관련 Collection을 사용하지 않으리란 보장은 없기 때문이다. 그져 두루뭉실했던 개념에 대해서 글을 적으며 equals와 hashCode 메서드의 내부 동작 과정을 간략하게 알아볼 수 있는 계기가 됐다. 이번 글에선 정교하게 equals와 hashCode를 재정의하는 방법과 조건들까진 다루진 않았지만 추후 필요하다면 작성할 예정이다. 
+글로 정리하다 보니 equals를 오버라이딩을 해야 할 때 hashCode도 같이 오버라이딩하는 것이 좋은 코딩 방법이란 생각이 든다. 앞으로 hash 관련 Collection을 사용하지 않으리란 보장은 없기 때문이다. 그저 두루뭉실했던 개념에 대해서 글을 적으며 equals와 hashCode 메서드의 내부 동작 과정을 간략하게 알아볼 수 있는 계기가 됐다. 이번 글에선 정교하게 equals와 hashCode를 재정의하는 방법과 조건들까진 다루진 않았지만 추후 필요하다면 작성할 예정이다. 
 
 > 상황에 따라 Object 클래스의 equals와 hashCode를 같이 재정의 해주자.
 > 
