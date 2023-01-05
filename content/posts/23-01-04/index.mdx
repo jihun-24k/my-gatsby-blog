@@ -1,6 +1,6 @@
 ---
 title: Stream에 관하여
-date: 2022-01-04
+date: 2023-01-04
 tags:
   - java
   - stream
@@ -48,6 +48,110 @@ stream.forEach(System.out::println);
 ## 스트림의 연산
 
 스트림에 정의된 메서드 중에서 데이터 소스를 다루는 작업을 연산이라고 하는데 다양한 연산을 이용해서 복잡한 작업드을 간단히 처리할 수 있다. 
+
+스트림의 연산은 크게 `중간 연산*(intermediate operation)*`과 `최종 연산*(terminal operation)*`으로 분류된다. 중간 연산은 연산결과를 스트림으로 반환해 연속으로 다른 중간 연산을 연결할 수 있다. 반면 최종 연산은 스트림의 요소를 소모하면서 연산을 수행하므로 단 한번의 연산만 가능하다.
+
+```java
+stream.distinct().limit(5).sorted().forEach(System.out::println);
+			//중간 연산    중간 연산  중간 연산   최종 연산
+```
+
+스트림의 연산 종류들은 추후 필요한 것들만 정리해볼 생각이다. 그렇다면 스트림 연산의 특징은 어떤 것들이 있을까??
+
+### 스트림 연산 세부 특징
+
+1. 지연된 연산
+    
+    스트림 연산에서는 최종 연산이 수행되기 전까지는 중간 연산이 수행되지 않는 점이다. 개인적인 이해로는 중간 연산은 스트림에 대한 조건에 가깝다.
+    
+2. Stream<Integer>와 IntStream
+요소의 타입이 T인 스트림은 기본적으로 `Stream<T>` 이지만, 오토박싱&언박싱의 비효율을 줄이기 위해 데이터 소스의 요소를 기본형으로 다루는 IntStream, LongStream, DoubleStream이 있다. 
+3. 병렬 스트림
+    
+    스트림으로 데이터를 처리할 때 병렬 처리가 쉽다. `parallel()` 이라는 메서드를 호출해서 병렬로 연산을 수행하도록 지시할 수 있다.
+    
+
+## 스트림 만드는 방법
+
+### 컬렉션
+
+Collection에 stream()이 정의되어 있다. 따라서 List와 Set을 구현한 클래스들은 모두 이 메서드로 생성이 가능하다.
+
+```java
+Stream<T> Collection.stream()
+
+List<Intetger> list = Arrays.asList(1,2,3,4);
+Stream<Integer> intStream = list.stream();   // List를 스트림으로 변환하는 예시
+```
+
+### 배열
+
+Stream과 Arrays에 static 메서드로 정의되어 있다. `Stream.of` 와 `Arrays.stream` 으로 사용된다.
+
+```java
+Stream<T> Stream.of(T... values) // 가변인자
+Stream<T> Stream.of(T[])
+Stream<T> Arrays.stream(T[])
+Stream<T> Arrays.stream(T[] array, int startInclusive, int endExclusive)
+```
+
+int, long, double 같은 기본형 배열은 앞서 언급한 IntStream 등을 Stream 대신 사용한다.
+
+### 특정 범위의 정수
+
+IntStream과 LongStream은 범위의 연속된 정수를 스트림으로 생성하는 `range()`와 `rangeClosed` 를 가지고 있다. 두 메서드의 차이는 경계의 끝의 end가 범위에 포함되는가 안되가 이다. range는 미포함, rangeClosed는 포함한다.
+
+```java
+IntStream.range(int begin, int end)
+IntStream.rangeClosed(int begin, int end)
+```
+
+### 임의의 수
+
+난수를 생성하는 Random클래스로 스트림을 만들어주는 메서드는 아래와 같다.
+
+- IntStream ints()
+- LongStream longs()
+- DoubleStream doubles()
+
+하지만 해당 메서드들로 스트림을 만들게 되면 범위가 지정되어 있지 않기 때문에 무한 스트림*(infinite stream)*이 생성되는데 이를 해결하기 위해 limit()이나 메서드들에게 범위를 넘겨줄 수 있다.
+
+```java
+IntStream intStream1 = new Random().ints();
+intStream.limit(5).forEach(System.out::println); // limit으로 유한 스트림 생성
+
+IntStream intStream2 = new Random().ints(5); // 크기 5를 매개변수로 지정
+
+IntStream intStream3 = new Random().ints(1, 5); // 1부터 4까지 범위 지정
+```
+
+### 람다식 - iterate(), generate()
+
+Stream 클래스의 iterate()와 generate()는 람다식을 매개변수로 받아서, 이 람다식에 의해 계산되는 값들을 무한 스트림으로 생성한다.
+
+### 파일
+
+list()는 지정된 디렉토리에 있는 파일 목록을 소스로 하는 스트림을 생성해서 반환한다.
+
+```java
+Stream<Path> Files.list(Path dir)
+```
+
+### 빈 스트림
+
+요소가 하나도 없는 빈 스트림을 생성할 수도 있다. 스트림에 연산을 수행할 결과가 하나도 없다면 null보단 빈 스트림을 반환하는 것이 낫다. (NPE가 두렵지 않다면 null로 하자..)
+
+```java
+Stream emptyStream = Stream.empty(); // 빈스트림 생성
+```
+
+### 스트림 합치기
+
+Stream의 static 메서드인 `concat()` 을 사용하면, 두 스트림을 하나로 연결할 수 있다. 물론 타입은 동일해야한다.
+
+```java
+Stream<String> strs = Stream.concat(strs1, strs2); // 두 스트림 하나로 연결
+```
 
 ## 참고
 
