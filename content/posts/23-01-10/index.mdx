@@ -1,0 +1,129 @@
+---
+title: Stream 주요 중간 연산
+date: 2023-01-10
+tags:
+  - java
+  - stream
+  - map()
+  - flatMap()
+---
+
+### Stream 중간연산
+
+여러 메서드들이 있지만 `map()`과 `flatMap()`이 주요 메서드로 분류되고 다른 메서드들은 직관적으로 와닿고 활용할 수 있는 메서드들이다.
+
+#### 스트림 자르기 - skip(), limit()
+
+```java
+Stream<T> skip(long n)         // 처음 n개를 건너뛰기
+Stream<T> limit(long maxSize)  // 스트림 요소 개수를 maxSize로 고정
+```
+
+skip은 처음 n개의 요소를 건너뛰게 해준다. limit은 스트림 요소를 maxSize로 잘라서 반환해준다.
+
+#### 스트림 요소 걸러내기 - filter(), distinct()
+
+```java
+Stream<T> filter(Predicate<? super T> predicate)
+Stream<T> distinct()
+```
+
+distinct는 중복된 요소들을 제거해주고 filter는 주어진 조건(Predicate)에 맞지 않는 요소를 걸러낸다. filter는 연산결과가 boolean인 람다식을 사용해도 된다. 필요하다면 여러번 중복으로 사용도 가능하다.
+
+```java
+stream.filter(i -> i%2==0).forEach(System.out::println);
+```
+
+#### 스트림 정렬 sorted()
+
+스트림에서 가장 많이 이용되는 중간연산자 중 하나일 수 있다. 스트림 요소들을 정렬할 때 사용한다.
+
+```java
+Stream<T> sorted()
+Stream<T> sorted(Comparator<? super T> comparator)
+```
+
+매개변수를 Comparator로 지정하지 않고 그냥 sorted를 사용하게 되면 기본 정렬만 (오름차순) 사용할 수 있지만 Comparator를 지정해주면 다양한 조건들로 정렬을 할 수 있다. 물론 람다식도 가능하다.
+
+#### Comparator 주요 내부 메서드
+
+- comparing()
+- thenComparing()
+- reverseOrder()
+
+Comparator 인터페이스는 보다 더 많은 메서드를 가지고 있지만 간단하게 자주 사용되는 것을 위주로 정리할까 한다. 더 자세한 메서드 선언을 보고 싶으면 아래의 java API 문서를 보는게 도움이 될 것이다.
+
+1. comparing()
+    
+    스트림의 요소가 Comparable을 구현하지 않은 경우엔 추가로 매개변수로 정렬기준(Comparator)을 지정해줘야한다.
+    
+2. thenComparing()
+    
+    추가적인 정렬조건을 추가할 때 사용된다.
+    
+3. reverseOrder()
+    
+    스트림을 역순(오름차순)으로 정렬해주는 메서드다.
+    
+
+#### 조회 - peek()
+
+연산과 연산 사이에 잘 처리가 되고 있는지 확인하고 싶을때 사용하는 연산자다. 물론 중간 연산이기 때문에 여러번 사용해도 forEach처럼 스트림을 닫지 않는다.
+
+#### ⭐️ 변환 - map()
+
+스트림 요소에 저장된 값에서 원하는 필드만 뽑아오거나 특정 형태로 변환할 때 사용되는 메서드다. 예를 들어 `File → String`으로 `String → Integer` 같이 변환할 수 있다.
+
+```java
+Stream<R> map(Function<? super T, ? extends R> mapper) 
+```
+
+다음 연산은 map을 활용해 파일 확장자만 뽑은 다음 중복을 제거해서 출력하는 예제다.
+
+```java
+fileStream.map(File::getName)                // File -> String으로 변환
+	.filter(s -> s.indexOf('.') != -1)         // 확장자가 없는 것은 제외
+	.map(s -> s.subString(s.indexOf('.') + 1)) // String -> String으로 변환
+	.map(String::toUpperCase)                  // 요소들을 모두 대문자로 변환
+	.distinct()                                // 중복 제거
+	.forEach(System.out::print);               // 요소들을 출력
+```
+
+#### 기본형으로 변환 mapToInt(), mapToLong(), mapToDouble()
+
+map()은 연산 결과를 Stream&#60;T&#62;타입의 스트림을 반환하는데, 스트림의 요소를 기본형으로 변환해야하는 경우에 이와같은 메서드들을 활용한다. 앞선 글인 [Stream에 관하여](https://jihun-24k.site/stream%EC%97%90-%EA%B4%80%ED%95%98%EC%97%AC) 에서 기본형 스트림을 생성할때 더 유용하고 빠른 연산을 할 수 있다고 언급했다. 
+
+예를 들어 스트림에 포함된 모든 학생의 성적을 합산해야한다고 하면 map()을 활용해 학생의 총점을 뽑아낼 것이다. 하지만 애초에 IntStream으로 반환하는 mapToInt() 메서드를 사용한다면 총합을 계산할 수 있는 메서드를 추가로 사용하고 불필요한 오토박싱(Integer로)을 줄일 수 있다. 아래는 IntSteam에서만 지원하는 메서드들이다.
+
+```java
+int sum()                // 스트림의 모든 요소의 총합
+OptionalDouble average() // sum() / (double) count()
+OptionalInt max()        // 스트림의 요소 중 제일 큰 값
+OptionalInt min()        // 스트림의 요소 중 제일 작은 값
+```
+
+위와 같은 메서드들은 최종 연산이기에 호출 후 스트림이 닫힌다. sum()과 average()를 연속해서 호출할 수 없다. 이런 상황을 위해 summaryStatistics()라는 메서드가 따로 제공된다.
+
+#### ⭐️ flatMap() - Stream &#60;T[ ]&#62;를 Stream &#60;T&#62;로 변환
+
+스트림의 요소가 배열이거나 map()의 연산결과가 배열인 경우, 즉 스트림의 타입이 Stream&#60;T[]&#62;인 경우, Stream&#60;T&#62;로 다루는 것이 더 편리할 때가 있다. 그럴 때 flatMap()을 사용한다. 예를 들면 아래의 경우가 있다.
+
+```java
+Stream<String[]> strArrStrm = Stream.of(
+									new String[] {"abc", "def", "ghi"},
+									new String[] {"ABC", "DEF", "GHI"});
+```
+
+각 요소의 문자열들을 합쳐서 문자열이 요소인 스트림, Stream&#60;String&#62;으로 만들려면 어떻게 해야할까?
+
+```java
+Stream<Stream<String>> strStrStrm1 = strArrStrm.map(Arrays::stream);
+Stream<String> strStrStrm2 = strArrStrm.flatMap(Arrays::stream);
+```
+
+첫번째 코드는 각 배열요소들을 스트림으로 만들어서 스트림 안에 스트림이 존재하도록 변환해준다. 반면 flatMap() 메서드는 안의 요소를 꺼내서 한 Stream&#60;String&#62;으로 변환해준다.
+
+### 참고
+
+- 자바의 정석 - stream
+- [Java11 API 문서 - Comparator](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Comparator.html)
