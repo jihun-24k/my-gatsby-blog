@@ -18,7 +18,7 @@ Iterator은 컬렉션에 저장된 요소들을 읽어오는 방법을 표준화
 | 메서드 | 설명 |
 | --- | --- |
 | boolean hasNext() | 읽어 올 요소가 남아있는지 확인한다. 있다면 true, 없다면 false |
-| Object next() | 다음 요소를 읽어 온다. 만약 다음 요소가 없다면  https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/NoSuchElementException.html 에러를 발생시킨다. |
+| Object next() | 다음 요소를 읽어 온다. 만약 다음 요소가 없다면  [NoSuchElementException](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/NoSuchElementException.html) 에러를 발생시킨다. |
 | void remove() | next()로 읽어온 요소를 삭제한다. |
 
 예시로 알고리즘 문제 중 Map을 Iterator로 접근한 코드를 가져와봤다. Map은 key와 value로 쌍을 이룬 요소들을 가지고 있기 때문에 List나 Set처럼 바로 iterator()로 접근이 불가능하다. 따라서 keySet이나 entrySet(), values()등으로 Set 형태로 변환한 뒤 iterator()로 접근한다.
@@ -38,7 +38,7 @@ Iterator에서 양방향 조회기능이 추가된 컬렉션이다. (List를 구
 | 메서드 | 설명 |
 | --- | --- |
 | boolean hasPrevious() | 읽어 올 이전 요소가 남아있는지 확인한다. 있다면 true, 없다면 false |
-| Object previous() | 이전 요소를 읽어 온다. 만약 이전 요소가 없다면  https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/NoSuchElementException.html 에러를 발생시킨다. |
+| Object previous() | 이전 요소를 읽어 온다. 만약 이전 요소가 없다면  [NoSuchElementException](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/NoSuchElementException.html) 에러를 발생시킨다. |
 | int nextIndex() | 다음 요소의 index를 반환한다. |
 | int previousIndex() | 이전 요소의 index를 반환한다. |
 
