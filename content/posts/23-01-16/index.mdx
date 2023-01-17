@@ -7,11 +7,11 @@ tags:
   - listiterator
 ---
 
-## 들어가며
+### 들어가며
 
 자바로 알고리즘을 진행하면 할수록 기본적인 문법 부분을 많이 모르고 있다는 생각이 든다. 프로그래머스에서 `위장` 문제의 풀이를 보면서 List와 Set 컬렉션 데이터의 접근 방법에 대해서 깨달음을 얻고 더 세부적으로 어떤 내용이 들어있는지 자바의 정석과 oracle java api 문서를 보면서 공부를 진행했다.
 
-## Iterator
+### Iterator
 
 Iterator은 컬렉션에 저장된 요소들을 읽어오는 방법을 표준화한 인터페이스다. Collection 인터페이스에는 Iterator를 반환하는 iterator()를 정의하고 있다. 따라서 List나 Set 인터페이스를 구현하는 컬렉션은 iterator()를 통해 Iterator를 얻은 다음 반복문, 주로 while문을 사용해 요소들을 읽어온다. 아래는 Iterator 인터페이스의 주요 내부 메서드들이다.
 
@@ -32,11 +32,23 @@ while(it.hasNext())
 		answer *= it.next() + 1;
 ```
 
-## ListIterator
+### ListIterator
+Iterator에서 양방향 조회기능이 추가된 컬렉션이다. (List를 구현한 경우만 사용 가능) 기본적인 내부 메서드들은 Iterator과 같고 추가적인 메서드는 아래와 같다.
 
-- [ ]  리스트 이터레이터 부분 정리
+| 메서드 | 설명 |
+| --- | --- |
+| boolean hasPrevious() | 읽어 올 이전 요소가 남아있는지 확인한다. 있다면 true, 없다면 false |
+| Object previous() | 이전 요소를 읽어 온다. 만약 이전 요소가 없다면  https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/NoSuchElementException.html 에러를 발생시킨다. |
+| int nextIndex() | 다음 요소의 index를 반환한다. |
+| int previousIndex() | 이전 요소의 index를 반환한다. |
 
-## 참고
+추가된 내부 메서드들을 보게되면 이전 요소들을 조회, 반환하는 메서드들이 있다는 것을 알 수 있다. 
+
+### 정리
+
+컬렉션을 사용할 때 늘 조회에 대한 고민이 있었다. 스트림 문법이 워낙 유명해 for문 또는 스트림만 존재하는 줄 알았는데 컬렉션 안에서 Iterator란 컬렉션도 존재한다는 것을 알 수 있었다. 적절히 사용해보면서 나중에 따로 구현해보는 시간도 가지면 좋을 것 같다고 생각했다.
+
+### 참고
 
 - [https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Iterator.html](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Iterator.html)
 - 자바의 정석
