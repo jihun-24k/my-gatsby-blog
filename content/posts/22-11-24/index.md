@@ -59,6 +59,6 @@ BindingResult는 해당 에러들을 다 담은 바구니라고 생각하면 된
 BindingResult 매개변수는 항상 @Valid 매개변수 바로 뒤에 위치해야 한다. 만약 2개의 매개변수의 위치가 정확하지 않다면 @Valid만 적용이 되어 입력값 검증 실패 시 400 오류가 발생한다.
 
 #### Validation의 유용한 어노테이션    
-<img src="validation-pyo.png" sizes="250px, 250px">
+<img src="validation-pyo.png"/>
 
 출처: [https://wikidocs.net/161873](https://wikidocs.net/161873)

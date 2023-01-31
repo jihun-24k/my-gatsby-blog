@@ -1,5 +1,5 @@
 ---
-title: gitignore에 추가할 것들
+title: 인텔리제이 사용시 gitignore에 추가할 것들
 date: 2023-01-24
 tags:
   - git
@@ -7,7 +7,7 @@ tags:
   - intellij
 ---
 
-## 인텔리제이 .gitignore 플러그인
+### 인텔리제이 .gitignore 플러그인
 
 인텔리제이에서는 .gitignore파일에 대한 기본적인 지원은 없습니다. 대신 플러그인에서 .gitignore 지원을 하고 있습니다. .ignore플러그인에서 지원하는 기능들은 다음과 같습니다.
 
@@ -15,22 +15,22 @@ tags:
 - 이그노어 처리여부 확인
 - 다양한 이그노어 파일 지원(.gitignore, .npmignore .dockerignore 등등)
 
-## .ignore 플러그인 설치
+### .ignore 플러그인 설치
 
 .ignore 플러그인 설치하고 인텔리제이를 나갔다 다시 들어와줘야 플러그인이 적용됩니다. 
 
-![스크린샷 2022-03-24 오후 10.49.41.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1e35797a-d59b-4004-88fd-c61476d128a2/스크린샷_2022-03-24_오후_10.49.41.png)
+![](gitignore1.png)
 
 적용이 됐으면 해당 파일 이름에 command + N을 눌려주면 아래와 같이 어떤 ignore 파일을 생성할지 리스트가 나오게 되는데 저흰 이번에 .gitignore 파일이기에 해당 파일을 선택해줍니다.
 
-![스크린샷 2022-03-24 오후 10.58.06.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6632fa99-7a3a-4afe-88e9-02060a3b1c73/스크린샷_2022-03-24_오후_10.58.06.png)
+![](gitignore2.png)
 
 누르면 아래 화면과 같이 나오게 되는데 이번이 처음 ignore파일을 생성하는 거기에 Generate 버튼을 눌려 .idea와 .gradle를 적어줍니다. 해당 템플릿은 만들어두면 다음에도 적용할 수 있습니다.
 
-![스크린샷 2022-03-24 오후 10.59.41.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/512386d6-a0c7-44fd-af5a-cebb2ff7fff0/스크린샷_2022-03-24_오후_10.59.41.png)
+![](gitignore3.png)
 
 .idea와 .gradle 파일들은 파일이 실행되면서 매번 바뀌는 파일들이기 때문에 굳이 깃레포지토리에 업로드를 하지 않아도 됩니다. 만일 협업을 할때면 충돌이 발생할 수도 있습니다.~~(경험담..)~~
 
-![스크린샷 2022-03-24 오후 11.06.46.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/15ac6e88-db1f-4611-8aa3-fe46e4133610/스크린샷_2022-03-24_오후_11.06.46.png)
+![](gitignore4.png)
 
 위와 같은 방식으로 스프링 부트 프로젝트를 진행할 때 ignore 파일을 만들어주면 됩니다.

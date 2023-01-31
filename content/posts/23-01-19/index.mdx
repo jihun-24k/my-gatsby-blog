@@ -8,11 +8,11 @@ tags:
   - collect()
 ---
 
-## Stream 최종 연산
+### Stream 최종 연산
 
 Stream의 최종 연산은 스트림 요소들을 소모해 결과를 만들어냄으로 한 스트림에 하나의 최종 연산만이 들어갈 수 있다. 다른 최종 연산들은 다루기 쉬워 현재 포스팅에선 다루지 않고 핵심이고 가장 복잡한 `reduce()`와 `collect()`에 대해서 정리할 것이다.
 
-## reduce()
+### reduce()
 
 스트림의 요소를 줄여나가면서 연산을 수행하고 최종결과를 반환한다. 처음 두 요소를 가지고 연산한 결과를 가지고 그 다음 요소와 연산한다. 이 과정에서 스트림의 요소를 하나씩 소모하게 되며, 스트림의 모든 요소를 소모하게 되면 결과를 반환한다.
 
@@ -22,7 +22,7 @@ Optional<T> reduce(BinaryOperator<T> accumulator)
 
 count(), sum(), max(), min()은 내부적으로 reduce()를 사용하고 있으며 reduce()를 사용하는 방법은 생각보다 간단하다. 초기값(identity)과 어떤 연산(Binary Operator)으로 스트림의 요소를 줄여나갈 것인지만 결정하면 된다.
 
-## collect()
+### collect()
 
 collect()는 스트림의 요소를 수집하는 최종연산이다. collect()가 스트림의 요소를 수집하려면 어떻게 수집할 것인가에 대한 방법은 컬렉터(collector)이다. Collectors 클래스는 미리 작성된 다양한 종류의 컬렉터를 반환하는 static 메서드를 가지고 있다.
 
@@ -39,9 +39,9 @@ collect()는 스트림의 요소를 수집하는 최종연산이다. collect()�
     클래스, static메서드로 미리 작성된 컬렉터를 제공한다.
     
 
-## Collectors가 제공하는 컬렉터들 사용하는 방법
+### Collectors가 제공하는 컬렉터들 사용하는 방법
 
-### 스트림을 컬렉션과 배열로 변환
+#### 스트림을 컬렉션과 배열로 변환
 
 스트림의 모든 요소를 컬렉션에 수집하려면 `toList()와 같은 메서드`를 사용한다. List나 Set이 아닌 특정 컬렉션은 `toCollection()에 해당 컬렉션의 생성자 참조`를 넣어주면 된다.
 
@@ -58,7 +58,7 @@ Student[] stuNames = studentStream.toArray(Student[]::new);
 Object[] stuNames = studentStream.toArray();
 ```
 
-### 문자열 결합 - joining()
+#### 문자열 결합 - joining()
 
 문자열 스트림의 모든 요소를 하나의 문자열로 연결해서 반환한다. 구분자도 지정 가능하고 접두사와 접미사도 지정 가능하다. 스트림 요소가 String이나 StringBuffer처럼 CharSequence의 자손의 경우에만 결합이 가능하므로 스트림의 요소가 문자열이 아닌 경우에는 map()을 통해 스트림 요소를 문자열로 반환해야 한다.
 
@@ -66,7 +66,7 @@ Object[] stuNames = studentStream.toArray();
 String studentNames = stuStream.map(Student::getName).collect(joining(","));
 ```
 
-## 정리
+### 정리
 
 Stream 안의 연산이 생각보다 많아서 놀랐다. 다 정리하는 것은 비효율적이라 생각했고 그룹화 분할(groupingBy(), partitioningBy())도 쓰면서 고급 Stream을 구사하는데 목적을 둘 수도 있지만 필요할때 책을 참고해서 사용하는 것이 좋다고 판단했다.
 
