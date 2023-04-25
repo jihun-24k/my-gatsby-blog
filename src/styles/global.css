@@ -14,3 +14,8 @@
   deckgo-highlight-code {
     --deckgo-highlight-code-font-size: 3rem;
 }
+
+.my-image {
+  max-width: 70%;
+  height: 70%;
+}
