@@ -1,0 +1,164 @@
+---
+title: 동기화 문제 및 해결책
+date: 2023-05-04
+tags: 
+  - 동기화
+  - bounded-buffer
+  - readers-writers
+---
+
+
+## 유한 버퍼 문제 (Bounded buffer)
+
+Bounded buffer는 제한된 크기를 가지는 유한 버퍼를 의미한다. 즉, 프로세스간의 공유 메모리를 뜻한다. 프로세스 간의 역할을 소비자와 생산자로 나누어 소비자는 버퍼를 비워내고 생산자는 버퍼를 채우는 역할이라 생각 해보자.
+
+유한 버퍼 문제는 생산자와 소비자 간의 동기화 문제를 해결하는 것이다. 버퍼는 크기가 제한되어 있어서, 생산자는 버퍼를 채울 수 없는 경우에는 기다려야 하고, 소비자는 버퍼가 비어 있을 경우에는 기다려야 한다. 이러한 상황에서, 생산자와 소비자 간의 상호작용을 조율해주는 것이 필요하다. 아래의 예제는 유한 버퍼 문제를 구조화 시킨 것이다.
+
+```c
+int n;
+semaphore mutex = 1;
+semaphore empty = n;
+semaphore full = 0;
+```
+
+- n → 사이즈가 n인 버퍼
+- mutex → 버퍼에 접근하기 위한 락을 제공한다. 이진 세마포
+- empty → 버퍼가 비어있는지 기록. 카운팅 세마포 (감소 시킨다.)
+- full → 버퍼가 꽉 찼는지 기록. 카운팅 세마포 (증가 시킨다.)
+
+이렇게 자료구조가 주어지게 되면 생산자, 소비자 간의 유한버퍼 구조는 다음과 같다.
+
+```c
+// 생산자 프로세스 구조
+while (true) {
+	// 소비자가 버퍼를 다 비울 때까지 대기
+	wait(empty);
+	// 소비자가 버퍼를 다 비웠으면 mutex락을 획득해 임계구역(버퍼)로 접근
+	wait(mutex);
+	...
+	// 버퍼를 채운다.
+	...
+	// 임계구역에서 작업을 끝냈다면 mutex락을 반납
+	signal(mutex);
+	// 소비자 프로세스에게 버퍼를 다 채웠다고 알림
+	signal(full);
+}
+
+// 소비자 프로세스 구조
+while (true) {
+	// 생산자가 버퍼를 다 채워줄 때까지 대기
+	wait(full);
+	// 생산자가 버퍼를 다 채웠으면 mutex락을 획득해 버퍼로 접근
+	wait(mutex);
+	...
+	// 버퍼를 비운다.
+	...
+	// 버퍼에서 작업을 끝냈다면 mutex락을 반납
+	signal(mutex);
+	// 생산자 프로세스에게 버퍼를 다 비웠다고 알림
+}
+```
+
+생산자와 소비자간의 대칭적인 구조는 동기화 문제를 발생시키기 쉽다. 간혹 wait 또는 signal의 명령어 순서가 바뀌는 문제같이 말이다.
+
+## Readers-writers 문제
+
+Readers-writers 문제는 공유 자원에 대해 자원을 읽어오는 reader와 자원을 갱신하는 writer 간에서 생기는 동기화 문제다. 대표적인 예로는 데이터베이스 예시가 있다.
+
+만약 하나의 데이터 베이스가 공유된다고 하자. 여기서 여러개의 readers가 데이터베이스를 조회하는 동시에 하나의 writer가 데이터베이스에 접근해 수정하는 경우가 있을 수 있다. 그렇다면 어느 readers는 수정 전 데이터를 보게되고 또 다른 readers들은 수정된 데이터를 보게되는 혼란이 야기된다. 이런 동기화 문제를 `readers-writers 문제`라 한다. readers-writers 문제는 변형이 두 가지 있는데 다음과 같다.
+
+1. writer와 reader 중 락을 먼저 획득하는 프로세스에게 접근하도록 해준다.
+    - writer가 대기한다고 해서 먼저 락을 쥐어주는 것이 아니라 기다리고 있는 reader들과 같이 락을 얻기 위해 경쟁해야한다.
+    - 하지만 이 과정에서 writer의 기아 문제(starvation)가 발생할 수도 있다.
+2. writer가 우선순위를 높게 가지게 한다.
+    - 다른 reader들은 writer 때문에 접근하지 못한다.
+    - 따라서 이 과정에서 reader의 기아 문제가 발생할 수 있다.
+
+두 가지 문제들 중 첫 번째 readers-writers 문제의 해결책 예시는 다음과 같다.
+
+```c
+semaphore rw_mutex = 1;
+semaphore mutex = 1;
+int read_count = 0;
+```
+
+- rw_mutex: reader와 writer가 모두 공유하는 이진 세마포
+- mutex: read_count 변수를 갱신할 때 상호 배제를 보장하기 위한 이진 세마포
+- read_count: 현재 몇 개의 프로세스들이 객체를 읽고 있는지 알려줌
+
+위와 같이 자료구조를 바탕으로 writer 프로세스의 구조는 다음과 같다.
+
+```c
+// writer 프로세스 구조
+while (true) {
+	wait(rw_mutex);
+	...
+	/* writer 프로세스의 동작 */
+	...
+	signal(rw_mutex);
+}
+```
+
+writer 프로세스는 rw_mutex만을 확인하다 락을 획득해 reader과의 동기화 문제를 해결해준다. reader 프로세스의 구조는 writer보단 좀 더 복잡하게 짜여있다.
+
+```c
+// reader 프로세스 구조
+while (true) {
+	wait(mutex);
+	read_count++;
+	if (read_count == 1)
+		wait(rw_mutex);
+	signal(mutex);
+	...
+	/* reader 프로세스의 동작 */
+	...
+	wait(mutex);
+	read_count--;
+	if (read_count == 0)
+		signal(rw_mutex);
+	signal(mutex);
+}
+```
+
+먼저 reader 프로세스는 read 프로세스들 간의 동기화를 위해 mutex 락을 획득할 때까지 기다린다. reader 프로세스는 read_count의 값을 변경해야하기 때문이다. mutex를 획득한 하나의 reader 프로세스는 rw_mutex를 통해 writer와 경쟁하게 된다. reader 프로세스들의 작업이 끝나고 read_count가 0이 되는 순간 rw_mutex 락이 반납되며 설명된 일련의 과정들이 반복된다. 여기서 중요한 부분은 n개의 reader 프로세스들이 있다면 rw_mutex 관련된 큐에 하나의 reader만이 삽입되고 나머지 n-1의 reader들은 mutex 관련 큐에서 대기한다. 
+
+## 식사하는 철학자들 문제
+
+식사하는 철학자들 문제는 다섯 명의 철학자가 원형 테이블에 앉아서 식사를 하는데, 각자의 앞에는 젓가락이 하나씩 놓여있다. 이 철학자들은 다음과 같은 행동을 반복한다.
+
+1. 생각한다.
+2. 왼쪽 젓가락을 집어들어서 식사를 시작한다.
+3. 오른쪽 젓가락을 집어들어서 식사를 계속한다.
+4. 식사를 마치고 왼쪽 젓가락과 오른쪽 젓가락을 모두 놓는다.
+
+모든 철학자가 동시에 오른쪽 젓가락과 왼쪽 젓가락을 먹으려고 할 경우, 둘 중 하나가 먼저 젓가락을 들어서 다른 철학자는 기다려야 한다. 이 때, 두 개의 젓가락을 들어놓은 철학자는 식사를 마칠 때까지 젓가락을 내려놓지 않기 때문에 다른 철학자들은 영원히 기다리게 된다.
+
+이 문제를 해결하기 위해서는 상호배제와 교착상태를 피하기 위한 기법들이 필요하다. 일반적으로, 일부 철학자들이 식사를 하다가 다른 철학자들이 젓가락을 들어놓을 때까지 기다리는 것을 방지하기 위해, 최대 n-1명의 철학자만이 동시에 식사를 할 수 있도록 하는 방법을 사용한다.
+
+```c
+semaphore chopstick[n];
+semaphore mutex = 1;
+
+void philosopher (int i) {
+	while (true) {
+		think(); // 생각 중
+
+		wait(mutex);
+		wait(chopstick[i]); // 왼쪽 젓가락을 집어들기
+		wait(chopstick[(i+1)%n]); // 오른쪽 젓가락을 집어들기
+		
+		eat(); // 식사 중
+
+		signal(chopstick[(i+1)%n]); 
+		signal(chopstick[i]);
+		signal(mutex);
+	}
+}
+
+```
+
+위의 코드에서, 철학자 i는 i번째 젓가락과 (i+1)%n번째 젓가락을 사용하여 식사한다. wait(chopstick[i])는 i번째 젓가락이 사용 가능할 때까지 기다리고, wait(chopstick[(i+1)%n])는 (i+1)%n번째 젓가락이 사용 가능할 때까지 기다린다. 그리고 젓가락을 내려놓을 때는 signal(chopstick[(i+1)%n])와 signal(chopstick[i])를 호출한다. 또한 그냥 젓가락을 집는 행위는 철학자들간의 상호배제를 지킬 수 없어 mutex 락으로 한번 상호배제를 시켜준다. 하지만 이또한 교착 상태를 예방 해줄뿐 기아문제는 발생할 수 있어 따로 확인을 해줘야한다.
+
+## 참고
+
+- 운영체제 Operating System Concepts 10판(퍼스트북, 2020)
